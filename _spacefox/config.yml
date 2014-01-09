@@ -1,0 +1,18 @@
+################## spacefox Main Config ##################
+##########################################################
+
+# URLs have to be filled without any protocol "http:// or https://"
+
+# Site Generals
+sitename : "alex.dev" 
+baseurl  : "alex.dev"
+
+
+# MySQL DB settings
+db_enable : "no"
+
+db_host  : ""
+db_user  : ""
+db_pass  : ""
+
+db_name  : ""
