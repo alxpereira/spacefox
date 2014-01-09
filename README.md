@@ -1,4 +1,4 @@
 spacefox
 ========
 
-SpaceFox is a new JS librairy animating your content in space
+SpaceFox is a new PHP Framework, simple and fast for easy website production
