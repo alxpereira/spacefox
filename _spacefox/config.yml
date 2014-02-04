@@ -4,15 +4,27 @@
 # URLs have to be filled without any protocol "http:// or https://"
 
 # Site Generals
-sitename : "alex.dev" 
-baseurl  : "alex.dev"
-
+root_folder : "/spacefox"
+domain      : "localhost"
 
 # MySQL DB settings
-db_enable : "no"
+db_enable : false
 
-db_host  : ""
-db_user  : ""
+db_host  : "127.0.0.1"
+db_port  : "3306"
+db_user  : "root"
 db_pass  : ""
 
-db_name  : ""
+db_name  : "spacefox_test"
+
+# Debug Enable
+debug    : false
+
+# Routes - Views settings
+route_views :
+   "/"     : "home"
+   "/test" : "test"
+
+# Routes - Api settings
+route_api :
+  "/api/hello" : "test_api => dosomething"

@@ -7,4 +7,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} \/.+\/
 RewriteCond %{REQUEST_URI} !.*\.(css|jpg|gif|zip|js)
-RewriteRule ^(.*)/ index.php [L]
+RewriteRule ^(.*)$ index.php [L]
