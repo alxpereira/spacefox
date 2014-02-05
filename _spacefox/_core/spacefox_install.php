@@ -17,12 +17,12 @@ require_once __DIR__.'/../_lib/spyc.php';
  */
 class spacefox_install{
 	private static $_config;
+    private static $_sf_dbname = "spacefox_core";
 	/** 
 	 * Init Function
 	 * 
 	*/
 	public function init(){
-		$success = false;
 		self::$_config = Spyc::YAMLLoad(__DIR__.'/../config.yml');
 
         self::make_dbs();
@@ -92,7 +92,7 @@ class spacefox_install{
         $con = mysqli_connect($dbhost, $config['db_user'], $config['db_pass']);
 
         // Create database
-        $sql="CREATE DATABASE IF NOT EXISTS spacefox_core";
+        $sql="CREATE DATABASE IF NOT EXISTS ".self::$_sf_dbname;
         if (mysqli_query($con,$sql)){
             $success = 2;
             $log .= " Database 'spacefox_core' created successfully";
