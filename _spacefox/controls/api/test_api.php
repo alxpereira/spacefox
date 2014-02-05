@@ -2,7 +2,7 @@
 
     class test_api{
         public function dosomething(){
-            var_dump(spacefox::sf_dump('sdfjk'));
+            spacefox::sf_dump('sdfjk');
         }
     }
 ?>

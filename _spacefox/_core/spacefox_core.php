@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__.'/../_lib/spyc.php';
+
+require_once __DIR__.'/../_core/spacefox_forge.php';
 /**
    * Spacefox -- Cool & Simple MVC PHP Framework
    * @version 0.0.1
@@ -53,10 +55,14 @@ require_once __DIR__.'/../_lib/spyc.php';
                         try{
                             $file = explode(" => ", $val)[0];
                             $method = explode(" => ", $val)[1];
-                            include_once(__DIR__.'/../controls/api/'.$file.'.php');
-                            call_user_func($file."::".$method);
-
-                            $tester = true;
+                            $file_path = __DIR__.'/../controls/api/'.$file.'.php';
+                            if(file_exists($file_path)){
+                                include_once($file_path);
+                                call_user_func($file."::".$method);
+                                $tester = true;
+                            }else{
+                                self::fivehundred();
+                            }
                         }catch(exception $e){
                             self::fivehundred();
                         }
@@ -71,9 +77,14 @@ require_once __DIR__.'/../_lib/spyc.php';
                 while (list($view_url, $val) = each($views_route))
                 {
                     if(explode(self::$_config['root_folder'], $path)[1] == $view_url){
+                        $file_path = __DIR__.'/../views/'.$val.'.php';
                         try{
-                            include_once(__DIR__.'/../views/'.$val.'.php');
-                            $tester = true;
+                            if(file_exists($file_path)){
+                                include_once($file_path);
+                                $tester = true;
+                            }else{
+                                self::fivehundred();
+                            }
                         }catch(exception $e){
                             self::fivehundred();
                         }
@@ -105,6 +116,13 @@ require_once __DIR__.'/../_lib/spyc.php';
             header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
             echo "500 error";
             exit();
+        }
+
+        /**
+         * Templating generator
+        */
+        public static function forge($template, $data){
+            spacefox_forge::tpl_gen($template, $data);
         }
 	}
 ?>
