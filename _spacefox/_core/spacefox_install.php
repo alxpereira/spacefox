@@ -167,10 +167,19 @@ class spacefox_install{
         spacefox_install::install_log($response);
 	}
 
+    /**
+     * Loading Installation template (html for header, footer etc...)
+     * @param String $tpl_name - name of the html to load
+    */
     private function load_install_template($tpl_name){
         require __DIR__.'/../_core/_templates/'.$tpl_name.'.html';
     }
 
+    /**
+     * Install Msg Logs Generator
+     * @param String $msg - message to send
+     * @param String $template - range of the message to show (warn, info, etc...)
+    */
     private function install_msg($msg, $template){
         switch($template){
             case "success":
