@@ -23,11 +23,15 @@ class spacefox_install{
 	 * 
 	*/
 	public function init(){
+        self::load_install_template("header_install");
+
+        self::install_msg("Initializing Installation of spacefox...", null);
 		self::$_config = Spyc::YAMLLoad(__DIR__.'/../config.yml');
 
         self::make_dbs();
 
-        echo "Install done bro'";
+        self::install_msg("Install done bro' :)", null);
+        self::load_install_template("footer_install");
 	}
 
 	/** 
@@ -46,21 +50,27 @@ class spacefox_install{
     private function install_log($log){
         switch ($log['success']) {
             case 0:
-                echo "Nothing to do : ".$log['log'];
+                $msg =  "Nothing to do : ".$log['log'];
+                $msg_style = "info";
                 break;
 
             case 1:
-                echo "Error : ".$log['log'];
+                $msg = "Error : ".$log['log'];
+                $msg_style = "error";
                 break;
 
             case 2:
-                echo "Success : ".$log['log'];
+                $msg = "Success : ".$log['log'];
+                $msg_style = "success";
                 break;
 
             default:
-                # code...
+                $msg = "";
+                $msg_style = null;
                 break;
         }
+
+        self::install_msg($msg, $msg_style);
     }
 
     /**
@@ -91,15 +101,24 @@ class spacefox_install{
         $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
         $con = mysqli_connect($dbhost, $config['db_user'], $config['db_pass']);
 
-        // Create database
-        $sql="CREATE DATABASE IF NOT EXISTS ".self::$_sf_dbname;
-        if (mysqli_query($con,$sql)){
-            $success = 2;
-            $log .= " Database 'spacefox_core' created successfully";
-        }else{
-            $success = 1;
-            $log .= " Error creating database: " . mysqli_error($con);
+        if(!mysqli_select_db($con, self::$_sf_dbname))
+        {
+            // Create database
+            $sql="CREATE DATABASE ".self::$_sf_dbname;
+            if (mysqli_query($con,$sql)){
+                $success = 2;
+                $log .= " Database 'spacefox_core' created successfully";
+            }else{
+                $success = 1;
+                $log .= " Error creating database: " . mysqli_error($con);
+            }
         }
+        else
+        {
+            $success = 2;
+            $log .= "spacefox db already exists. skipping this step...";
+        }
+
 
         $response = [
             "success" => $success,
@@ -117,21 +136,28 @@ class spacefox_install{
 		$log = "";
 
         $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
-
         $con = mysqli_connect($dbhost, $config['db_user'], $config['db_pass']);
         // Check connection to mysql
         if (mysqli_connect_errno()){
             $log = 'Failed to connect to MySQL: ' . mysqli_connect_error();
         }
 
-        // Create database
-        $sql="CREATE DATABASE ".$config['db_name'];
-        if (mysqli_query($con,$sql)){
+        if(!mysqli_select_db($con, $config['db_name']))
+        {
+            // Create database
+            $sql="CREATE DATABASE ".$config['db_name'];
+            if (mysqli_query($con,$sql)){
+                $success = 2;
+                $log .= " Database '".$config['db_name']."' created successfully";
+            }else{
+                $success = 1;
+                $log .= " Error creating database: " . mysqli_error($con);
+            }
+        }
+        else
+        {
             $success = 2;
-            $log .= " Database '".$config['db_name']."' created successfully";
-        }else{
-            $success = 1;
-            $log .= " Error creating database: " . mysqli_error($con);
+            $log .= $config['db_name']." db already exists. skipping this step...";
         }
 
 		$response = [
@@ -140,6 +166,32 @@ class spacefox_install{
 		];
         spacefox_install::install_log($response);
 	}
+
+    private function load_install_template($tpl_name){
+        require __DIR__.'/../_core/_templates/'.$tpl_name.'.html';
+    }
+
+    private function install_msg($msg, $template){
+        switch($template){
+            case "success":
+                $msg = "<div class=\"alert alert-success\">".$msg."</div>";
+                break;
+            case "info":
+                $msg = "<div class=\"alert alert-info\">".$msg."</div>";
+                break;
+            case "warn":
+                $msg = "<div class=\"alert alert-warning\">".$msg."</div>";
+                break;
+            case "error":
+                $msg = "<div class=\"alert alert-danger\">".$msg."</div>";
+                break;
+            default:
+                $msg = "<p>".$msg."</p>";
+                break;
+        }
+
+        echo $msg;
+    }
 }
 
 ?>

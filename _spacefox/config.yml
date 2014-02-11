@@ -3,12 +3,16 @@
 
 # URLs have to be filled without any protocol "http:// or https://"
 
-# Site Generals
+## Site Generals ##
+###################
 root_folder : "/spacefox"
 domain      : "localhost"
 
-# MySQL DB settings
-db_enable : false
+## MySQL DB settings ##
+#######################
+
+# enable spacefox & client database
+db_enable : true
 
 db_host  : "127.0.0.1"
 db_port  : "3306"
@@ -17,8 +21,8 @@ db_pass  : ""
 
 db_name  : "spacefox_test"
 
-# Debug Enable
-debug    : false
+## Routes / URL rewriting settings ##
+#####################################
 
 # Routes - Views settings
 route_views :
@@ -28,3 +32,6 @@ route_views :
 # Routes - Api settings
 route_api :
   "/api/hello" : "test_api => dosomething"
+
+# Debug Enable
+debug    : false
