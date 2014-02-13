@@ -31,7 +31,8 @@ route_views :
 
 # Routes - Api settings
 route_api :
-  "/api/hello" : "test_api => dosomething"
+  "/api/hello"     : "test_api => dosomething"
+  "/api/readmodel" : "test_api => retrievedb"
 
 # Debug Enable
 debug    : false

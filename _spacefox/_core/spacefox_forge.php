@@ -1,13 +1,12 @@
 <?php
-require_once __DIR__.'/../_lib/spyc.php';
 /**
- * Spacefox -- Cool & Simple MVC PHP Framework
+ * spacefox -- Cool & Simple MVC PHP Framework
  * @version 0.0.1
  * @author Alexandre Pereira <alex.was.pereira@gmail.com>
  * @link https://github.com/alxpereira/spacefox
  * @copyright Copyright 2014 Alexandre Pereira
  * @license WTFPL 2004
- * @package Spacefox
+ * @package spacefox
  */
 
 
@@ -30,4 +29,3 @@ require_once __DIR__.'/../_lib/spyc.php';
             echo html_entity_decode($output);
         }
     }
-?>

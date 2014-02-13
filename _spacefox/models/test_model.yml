@@ -1,0 +1,6 @@
+## Test Model ##
+
+name      : "CHAR(255)"
+last_name : "TEXT"
+phone     : "INT"
+various   : "VARCHAR(200)"

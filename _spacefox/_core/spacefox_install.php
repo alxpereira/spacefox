@@ -18,6 +18,7 @@ require_once __DIR__.'/../_lib/spyc.php';
 class spacefox_install{
 	private static $_config;
     private static $_sf_dbname = "spacefox_core";
+
 	/** 
 	 * Init Function
 	 * 
@@ -108,6 +109,13 @@ class spacefox_install{
             if (mysqli_query($con,$sql)){
                 $success = 2;
                 $log .= " Database 'spacefox_core' created successfully";
+
+                if(!self::make_sf_tables()){
+                    self::install_msg("Error Creating the spacefox core tables... embarrassing", "error");
+                }
+                if(!self::insert_sf_db()){
+                    self::install_msg("Error Creating the spacefox core values... embarrassing", "error");
+                }
             }else{
                 $success = 1;
                 $log .= " Error creating database: " . mysqli_error($con);
@@ -116,9 +124,9 @@ class spacefox_install{
         else
         {
             $success = 2;
-            $log .= "spacefox db already exists. skipping this step...";
+            $log .= "spacefox db and tables already exist. skipping this step...";
         }
-
+        mysqli_close($con);
 
         $response = [
             "success" => $success,
@@ -127,7 +135,48 @@ class spacefox_install{
         spacefox_install::install_log($response);
     }
 
-	/** 
+    /**
+     * Core Tables Install
+    */
+    private function make_sf_tables(){
+        $config = self::$_config;
+
+        $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
+        $con = mysqli_connect($dbhost, $config['db_user'], $config['db_pass'], self::$_sf_dbname);
+
+        $sql="CREATE TABLE applications(root CHAR(255),site_domain CHAR(255),db_name CHAR(255), installer_ip CHAR(255))";
+        if (mysqli_query($con,$sql)){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        mysqli_close($con);
+    }
+
+    /**
+     * Core DB value insert
+    */
+    private function insert_sf_db(){
+        $config = self::$_config;
+
+        $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
+        $con = mysqli_connect($dbhost, $config['db_user'], $config['db_pass'], self::$_sf_dbname);
+
+        $sql = "INSERT INTO applications (root, site_domain, db_name, installer_ip) VALUES ('".$config['root_folder']."', '".$config['domain']."', '".$config['db_name']."', '".self::get_client_ip()."')";
+
+        if (mysqli_query($con,$sql)){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        mysqli_close($con);
+    }
+
+    /**
 	 * Client Database Install
 	*/
 	private function make_client_db(){
@@ -159,6 +208,7 @@ class spacefox_install{
             $success = 2;
             $log .= $config['db_name']." db already exists. skipping this step...";
         }
+        mysqli_close($con);
 
 		$response = [
 			"success" => $success,
@@ -201,6 +251,18 @@ class spacefox_install{
 
         echo $msg;
     }
-}
 
+    private function get_client_ip(){
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+            $ip=$_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else{
+            $ip=$_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+}
 ?>
