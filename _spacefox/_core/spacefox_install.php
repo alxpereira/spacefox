@@ -23,7 +23,7 @@ class spacefox_install{
 	 * Init Function
 	 * 
 	*/
-	public function init(){
+	public static function init(){
         self::load_install_template("header_install");
 
         self::install_msg("Initializing Installation of spacefox...", null);
@@ -48,7 +48,7 @@ class spacefox_install{
      * Install Log Generator
      * @param Array $log - containing log details to show
     */
-    private function install_log($log){
+    private static function install_log($log){
         switch ($log['success']) {
             case 0:
                 $msg =  "Nothing to do : ".$log['log'];
@@ -77,7 +77,7 @@ class spacefox_install{
     /**
      * Databases Creation trigger
     */
-    private function make_dbs(){
+    private static function make_dbs(){
         $config = spacefox_install::$_config;
         if($config['db_enable'] != true){
             spacefox_install::install_log([
@@ -94,7 +94,7 @@ class spacefox_install{
     /**
      * Core Database Install
     */
-    private function make_sf_db(){
+    private static function make_sf_db(){
         $config = self::$_config;
         $success = false;
         $log = "";
@@ -138,7 +138,7 @@ class spacefox_install{
     /**
      * Core Tables Install
     */
-    private function make_sf_tables(){
+    private static function make_sf_tables(){
         $config = self::$_config;
 
         $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
@@ -158,7 +158,7 @@ class spacefox_install{
     /**
      * Core DB value insert
     */
-    private function insert_sf_db(){
+    private static function insert_sf_db(){
         $config = self::$_config;
 
         $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
@@ -179,7 +179,7 @@ class spacefox_install{
     /**
 	 * Client Database Install
 	*/
-	private function make_client_db(){
+	private static function make_client_db(){
 		$config = self::$_config;
 		$success = false;
 		$log = "";
@@ -221,7 +221,7 @@ class spacefox_install{
      * Loading Installation template (html for header, footer etc...)
      * @param String $tpl_name - name of the html to load
     */
-    private function load_install_template($tpl_name){
+    private static function load_install_template($tpl_name){
         require __DIR__.'/../_core/_templates/'.$tpl_name.'.html';
     }
 
@@ -230,7 +230,7 @@ class spacefox_install{
      * @param String $msg - message to send
      * @param String $template - range of the message to show (warn, info, etc...)
     */
-    private function install_msg($msg, $template){
+    private static function install_msg($msg, $template){
         switch($template){
             case "success":
                 $msg = "<div class=\"alert alert-success\">".$msg."</div>";
@@ -252,7 +252,7 @@ class spacefox_install{
         echo $msg;
     }
 
-    private function get_client_ip(){
+    private static function get_client_ip(){
         if (!empty($_SERVER['HTTP_CLIENT_IP'])){
             $ip=$_SERVER['HTTP_CLIENT_IP'];
         }
