@@ -105,7 +105,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
         /**
          * 404 generation method
         */
-        private function fourofour(){
+        private static function fourofour(){
             header('HTTP/1.0 404 Not Found');
             echo "404 error";
             exit();
@@ -114,7 +114,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
         /**
          * 500 generation method
         */
-        private function fivehundred(){
+        private static function fivehundred(){
             header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
             echo "500 error";
             exit();

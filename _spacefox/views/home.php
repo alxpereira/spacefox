@@ -8,4 +8,4 @@
     ));
 
     spacefox::forge('footer', null);
-?>
+
