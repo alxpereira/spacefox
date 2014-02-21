@@ -45,7 +45,7 @@ class spacefox_db extends spacefox{
      * @return Boolean - true/false if the creation succeeded of failed.
     */
     private function create_table($table_name, $model_name){
-        $config = $this->$_config;
+        $config = self::$_config;
 
         $model = self::model($model_name);
         $model_request = "";
