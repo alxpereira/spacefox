@@ -5,4 +5,3 @@ require_once '_core/spacefox_install.php';
 
 spacefox_install::init();
 
-?>

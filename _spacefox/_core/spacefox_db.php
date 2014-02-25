@@ -63,12 +63,13 @@ class spacefox_db extends spacefox{
 
         $sql="CREATE TABLE ".$table_name."(".$model_request.")";
         if (mysqli_query($con,$sql)){
+            mysqli_close($con);
             return true;
         }
         else
         {
+            mysqli_close($con);
             return false;
         }
-        mysqli_close($con);
     }
 }

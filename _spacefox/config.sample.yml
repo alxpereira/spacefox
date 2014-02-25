@@ -1,0 +1,36 @@
+################## spacefox Main Config ##################
+##########################################################
+
+# URLs have to be filled without any protocol "http:// or https://"
+
+## Site Generals ##
+###################
+root_folder : "/"
+domain      : "localhost"
+
+## MySQL DB settings ##
+#######################
+
+# enable spacefox & client database
+db_enable : false
+
+db_host  : "127.0.0.1"
+db_port  : "3306"
+db_user  : "login"
+db_pass  : "password"
+
+db_name  : "db_to_create"
+
+## Routes / URL rewriting settings ##
+#####################################
+
+# Routes - Views settings
+route_views :
+   "/"     : "home"
+
+# Routes - Api settings
+route_api :
+  "/api/hello"     : "test_api => helloworld"
+
+# Debug Enable
+debug    : false

@@ -96,7 +96,6 @@ class spacefox_install{
     */
     private static function make_sf_db(){
         $config = self::$_config;
-        $success = false;
         $log = "";
 
         $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
@@ -146,13 +145,14 @@ class spacefox_install{
 
         $sql="CREATE TABLE applications(root CHAR(255),site_domain CHAR(255),db_name CHAR(255), installer_ip CHAR(255))";
         if (mysqli_query($con,$sql)){
+            mysqli_close($con);
             return true;
         }
         else
         {
+            mysqli_close($con);
             return false;
         }
-        mysqli_close($con);
     }
 
     /**
@@ -167,13 +167,14 @@ class spacefox_install{
         $sql = "INSERT INTO applications (root, site_domain, db_name, installer_ip) VALUES ('".$config['root_folder']."', '".$config['domain']."', '".$config['db_name']."', '".self::get_client_ip()."')";
 
         if (mysqli_query($con,$sql)){
+            mysqli_close($con);
             return true;
         }
         else
         {
+            mysqli_close($con);
             return false;
         }
-        mysqli_close($con);
     }
 
     /**
@@ -265,4 +266,3 @@ class spacefox_install{
         return $ip;
     }
 }
-?>
