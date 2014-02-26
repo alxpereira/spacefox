@@ -124,6 +124,8 @@ require_once __DIR__.'/../_core/spacefox_db.php';
 
         /**
          * Error Logger
+         * @param String $status - name of the file to write, for example "error".log
+         * @param String $msg - msg to write in the log file
         */
         protected static function logger($status, $msg){
             $file_path = __DIR__.'/../'.$status.'.log';
