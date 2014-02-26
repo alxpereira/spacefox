@@ -1,24 +1,26 @@
 spacefox
 ========
-
-SpaceFox is a new MVC PHP Framework, simple and fast for easy website production. 
+**spacefox** is a new MVC PHP Framework, simple and fast for easy website production. 
 
 Version
 ----
-0.0.1
+0.0.2
 
 Install
 -------------
 
-##### Configure _spacefox/config.yml file with the following mandatory values
+#### Make a copy of your _spacefox/config.sample.yml and name it config.yml. Then complete this file with the following mandatory values :
 
 * root_folder
 * domain
 
+#### !! Caution !!
+You should have installed on your server apache 2.* and PHP 5.4 minimum to use spacefox.
+
 Display my first page ?
 -------------
 
-##### You want to display a simple page with no templating issue ? easy...
+#### You want to display a simple page with no templating issue ? easy...
 
 * edit you ```route_views``` node in **_spacefox/config.yml** to define which view will be displayed depending on the url called. That means that the url on the left will call the view on the right. Easy ! example :
 
@@ -28,8 +30,8 @@ route_views :
    "/test" : "test"
 ```
 
-* then just create a PHP file in the **_spacefox/views/** folder with the same name and write you html/php code inside. Here for example they will be :  
- 
+* then just create a PHP file in the **_spacefox/views/** folder with the same name and write you html/php code inside. Here for example they will be :
+
 ```sh
 /views/
     home.php
@@ -39,18 +41,18 @@ route_views :
 API controls
 -------------
 
-##### You want a simple api to trigger a function when calling a specific url ?
+#### You want a simple api to trigger a function when calling a specific url ?
 
-* edit you ```route_api``` node in **_spacefox/config.yml** to set the url that will trigger a function in a class. example here: 
+* edit you ```route_api``` node in **_spacefox/config.yml** to set the url that will trigger a function in a class. example here:
 
 ```sh
 route_api :
   "/api/hello" : "test_api => dosomething"
-  
+
 # the url "/api/hello" will run the function dosomething in the "class test_api"
 ```
 
-* then just create a PHP file in the **_spacefox/controls/api/** folder names as the class name. Here for example they will be :  
+* then just create a PHP file in the **_spacefox/controls/api/** folder names as the class name. Here for example they will be :
 
 ```sh
 /controls/
@@ -58,7 +60,7 @@ route_api :
         test_api.php
 ```
 
-* and write your class/method in the file just created 
+* and write your class/method in the file just created
 
 ```sh
 <?php
@@ -67,22 +69,53 @@ route_api :
             echo "hello world";
         }
     }
-?>
 ```
 
 #### Result
 The url http://yourwebsite.com/api/hello will display "hello world" :)
 
+
+
+
+Templating : spacefox::forge
+-------------
+#### Need to include some templates ? Yes you can as said the white house guy.
+
+spacefox (forge) template system is really simple. You can include templates in a view in a second with our without data parsing.
+
+Example :
+
+My view is in /views/home.php and is routed on the url http://yourwebsite.com/ root. As seen in the first tutorial above. Now I want to display a generic header and footer in my view. Let's do a template !
+* Create a new template in **/views/templates/** for example **header.html** and **footer.html**
+```sh
+/views/
+    /templates/
+        header.html
+        footer.html
+```
+* This **header.html** file will contain a dynamic title that could change regarding the view or a related method.
+```sh
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+</head>
+```
+* And we'll finally call this template pushing the data in the related view regarding this logic : ```spacefox::forge(stringTemplate, arrayData);```
+```sh
+<?php
+    spacefox::forge('header', array(
+        "title" => "Test Title"
+    ));
+```
+
 Coming soon...
 -------------
 * Databases support (mySQL) and spacefox vendor DB utilities
-* Templating options
 
 License
 ----
 
-WTFPL (Do What the Fuck You Want to Public License) 2014
+WTFPL (Do What the Fuck You Want to Public License) 2004
 
-**(Copyleft) Alexandre Pereira**
-
-    
+**(Copyleft) 2014 - Alexandre Pereira**

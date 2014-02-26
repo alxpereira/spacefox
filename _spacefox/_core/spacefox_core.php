@@ -5,7 +5,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
 
 /**
    * spacefox -- Cool & Simple MVC PHP Framework
-   * @version 0.0.1
+   * @version 0.0.2
    * @author Alexandre Pereira <alex.was.pereira@gmail.com>
    * @link https://github.com/alxpereira/spacefox
    * @copyright Copyright 2014 Alexandre Pereira
@@ -75,7 +75,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
             /**
              * Check then if any url match the current path in the route_views array in config.yml
             */
-            if(count($views_route) > 0){
+            if(!$tester && count($views_route) > 0){
                 while (list($view_url, $val) = each($views_route))
                 {
                     if(explode(self::$_config['root_folder'], $path)[1] == $view_url){
