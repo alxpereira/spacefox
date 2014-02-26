@@ -63,6 +63,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
                                 call_user_func($file."::".$method);
                                 $tester = true;
                             }else{
+                                self::logger("error", "Error [500]: File '".$file_path."' for route '".explode(self::$_config['root_folder'], $path)[1]."' doesn't exists in spacefox");
                                 self::fivehundred();
                             }
                         }catch(exception $e){
@@ -85,6 +86,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
                                 include_once($file_path);
                                 $tester = true;
                             }else{
+                                self::logger("error", "Error [500]: File '".$file_path."' for route '".explode(self::$_config['root_folder'], $path)[1]."' doesn't exists in spacefox");
                                 self::fivehundred();
                             }
                         }catch(exception $e){
@@ -105,7 +107,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
         /**
          * 404 generation method
         */
-        private static function fourofour(){
+        protected static function fourofour(){
             header('HTTP/1.0 404 Not Found');
             echo "404 error";
             exit();
@@ -114,11 +116,24 @@ require_once __DIR__.'/../_core/spacefox_db.php';
         /**
          * 500 generation method
         */
-        private static function fivehundred(){
+        protected static function fivehundred(){
             header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
             echo "500 error";
             exit();
         }
+
+        /**
+         * Error Logger
+        */
+        protected static function logger($status, $msg){
+            $file_path = __DIR__.'/../'.$status.'.log';
+
+            $file_handler = fopen($file_path, 'a');
+            fwrite($file_handler, $msg."\n");
+
+            fclose($file_handler);
+        }
+
 
         /**
          * Templating generator
