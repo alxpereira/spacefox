@@ -1,0 +1,9 @@
+# Storm Files
+.idea/
+ 
+# SASS Cache
+.sass-cache/
+
+# Spacefox Test
+_spacefox/config.yml
+_spacefox/error.log

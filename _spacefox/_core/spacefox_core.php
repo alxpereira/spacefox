@@ -127,20 +127,39 @@ require_once __DIR__.'/../_core/spacefox_db.php';
          * @param String $status - name of the file to write, for example "error".log
          * @param String $msg - msg to write in the log file
         */
-        protected static function logger($status, $msg){
-            $file_path = __DIR__.'/../'.$status.'.log';
+        public static function logger($status, $msg){
+            $dir_path = dirname(__FILE__).'/../log';
 
-            $file_handler = fopen($file_path, 'a');
-            fwrite($file_handler, $msg."\n");
+            // @TODO : Change permissions on apache to allow php to create the dir/file
+            /*if (!file_exists($dir_path)) {
+                mkdir($dir_path, 0744);
+            }*/
 
-            fclose($file_handler);
+            $msg = $msg." ".self::get_srv_time();
+
+            $file_handle = fopen($dir_path.'/'.$status.'.log', 'a');
+            fwrite($file_handle, $msg."\n");
+            fclose($file_handle);
         }
-
 
         /**
          * Templating generator
-        */
+         */
         public static function forge($template, $data){
             spacefox_forge::tpl_gen($template, $data);
+        }
+
+        /**
+         * Get Server time
+         *
+         * @return String $current_date - current date/time on the "YYYY-MM-DD HH:MM:SS DIFF" format
+         */
+        protected static function get_srv_time(){
+            $tz = strlen(self::$_config['timezone']) > 0 ? self::$_config['timezone'] : 'Europe/Paris';
+
+            $date = new DateTime(null, new DateTimeZone($tz));
+            $current_date = $date->format('Y-m-d H:i:sP') . "\n";
+
+            return $current_date;
         }
 	}

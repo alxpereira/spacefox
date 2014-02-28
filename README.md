@@ -38,6 +38,44 @@ route_views :
     test.php
 ```
 
+
+Templating : spacefox::forge
+-------------
+#### Need to include some templates ? Yes you can as said the white house guy.
+
+spacefox (forge) template system is really simple. You can include templates in a view in a second with our without data parsing.
+
+Example :
+
+My view is in /views/home.php and is routed on the url http://yourwebsite.com/ root. As seen in the first tutorial above. Now I want to display a generic header and footer in my view. Let's do a template !
+* Create a new template in **/views/templates/** for example **header.html** and **footer.html**
+```sh
+/views/
+    /templates/
+        header.html
+        footer.html
+```
+* This **header.html** file will contain a dynamic title that could change regarding the view or a related method.
+```sh
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+</head>
+```
+* And we'll finally call this template pushing the data in the related view regarding this logic : ```spacefox::forge(stringTemplate, arrayData);```, the second parameter could be also ```NULL``` if you don't need to parse any data.
+```sh
+<?php
+    // example calling a template and sending data into
+    spacefox::forge('header', array(
+        "title" => "Test Title"
+    ));
+
+    // if no data to send, just calling a template :)
+    spacefox::forge('footer',NULL);
+```
+
+
 API controls
 -------------
 
@@ -76,37 +114,22 @@ The url http://yourwebsite.com/api/hello will display "hello world" :)
 
 
 
-
-Templating : spacefox::forge
+Logs ? spacefox::logger :-)
 -------------
-#### Need to include some templates ? Yes you can as said the white house guy.
+#### Managing errors is also easy
+All critical errors in the framework are sent to ***_spacefox/error.log***. 
 
-spacefox (forge) template system is really simple. You can include templates in a view in a second with our without data parsing.
+You can also use this method to generate errors and new files simply using the method ```spacefox::logger(stringFilename, stringMessage)```
 
-Example :
-
-My view is in /views/home.php and is routed on the url http://yourwebsite.com/ root. As seen in the first tutorial above. Now I want to display a generic header and footer in my view. Let's do a template !
-* Create a new template in **/views/templates/** for example **header.html** and **footer.html**
-```sh
-/views/
-    /templates/
-        header.html
-        footer.html
-```
-* This **header.html** file will contain a dynamic title that could change regarding the view or a related method.
-```sh
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{title}}</title>
-</head>
-```
-* And we'll finally call this template pushing the data in the related view regarding this logic : ```spacefox::forge(stringTemplate, arrayData);```
+For example this method will write "aie aie aie" in the file _spacefox/myerrors.log
 ```sh
 <?php
-    spacefox::forge('header', array(
-        "title" => "Test Title"
-    ));
+    // for example a custom class, it should inherit of spacefox main class to use the method
+    class test extends spacefox{
+        public function outch(){
+            spacefox::logger('myerrors', 'aie aie aie');
+        }
+    }
 ```
 
 Coming soon...
