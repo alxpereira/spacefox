@@ -43,6 +43,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
         */
 		private static function route(){
 			$path = $_SERVER["REQUEST_URI"];
+            $path = explode("?",$path)[0];
             $views_route = self::$_config['route_views'];
             $api_route = self::$_config['route_api'];
             $tester = false;
