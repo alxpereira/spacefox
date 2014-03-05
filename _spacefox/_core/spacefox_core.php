@@ -163,4 +163,32 @@ require_once __DIR__.'/../_core/spacefox_db.php';
 
             return $current_date;
         }
+        
+        /**
+         * Get data from a URL using CURL
+         * @param String $url - url to load.
+         *
+         * @return Object $data
+         */
+        protected function get_data($url) {
+            $ch = curl_init();
+            $timeout = 5;
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            // Check if there's a proxy setting
+            if(strlen(self::$_config['proxy']) > 0){
+                $proxy_url = explode("@", self::$_config['proxy'])[1];
+                $proxy_log = explode("@", self::$_config['proxy'])[0];
+
+                curl_setopt($ch, CURLOPT_PROXY, $proxy_url);
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxy_log);
+            }
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            $data = curl_exec($ch);
+            echo curl_error($ch);
+            curl_close($ch);
+            return $data;
+        }
 	}
