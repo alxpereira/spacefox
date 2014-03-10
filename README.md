@@ -132,6 +132,21 @@ For example this method will write "aie aie aie" in the file _spacefox/myerrors.
     }
 ```
 
+Various methods
+-------------
+#### For free !
+* ```spacefox::getdata(stringURL)``` getting data from everywhere using cURL
+
+* ```spacefox::get_srv_time()``` returning the server timestamp.
+ You can force the server timezone using the file ***config.xml*** and the optional node ```timezone```. You can use any valid php timezone :)
+
+* ```spacefox::fivehundred()``` launch the Error 500 page
+
+* ```spacefox::fourofour()``` launch the Error 404 page
+
+* proxy settings : if you're using spacefox behind a proxy you can add your proxy settings in the node ```proxy``` in the format ***login:pass@URI:port*** (works with spacefox::getdata)
+
+
 Coming soon...
 -------------
 * Databases support (mySQL) and spacefox vendor DB utilities
