@@ -38,6 +38,10 @@ route_views :
     test.php
 ```
 
+#### Result
+The url http://yourwebsite.com/ will display the content of /views/home.php and http://yourwebsite.com/test will display the content of /view/test.php. 
+etc... etc... enjoy it to infinity !
+
 
 Templating : spacefox::forge
 -------------
