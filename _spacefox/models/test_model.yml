@@ -1,6 +1,6 @@
 ## Test Model ##
 
-name      : "CHAR(255)"
-last_name : "TEXT"
-phone     : "INT"
-various   : "VARCHAR(200)"
+first_name : "CHAR(255)"
+last_name  : "TEXT"
+phone      : "INT"
+various    : "VARCHAR(200)"

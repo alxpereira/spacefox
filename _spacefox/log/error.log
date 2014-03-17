@@ -1,0 +1,25 @@
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Error [500]: File '/Users/apereira/Desktop/@DEV/@LOCAL/spacefox/_spacefox/_core/../views/test.php' for route '/test' doesn't exists in spacefox install
+Spacefox DB : Connection error : SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected 2014-03-17 17:32:57+01:00
+
+Spacefox DB : error : SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected 2014-03-17 17:33:38+01:00
+
+Spacefox DB : error : SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected 2014-03-17 17:33:58+01:00
+
+Spacefox DB : error : SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected 2014-03-17 17:34:01+01:00
+
+Spacefox DB : error : SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected 2014-03-17 17:34:23+01:00
+
+Spacefox DB : error : SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected 2014-03-17 17:34:28+01:00
+
+Spacefox DB : error : SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'test_bis' already exists 2014-03-17 17:37:51+01:00
+
+Spacefox DB : error : SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'test_bis' already exists 2014-03-17 17:37:52+01:00
+
+Spacefox DB : error : SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'test_bis' already exists 2014-03-17 17:40:11+01:00
+

@@ -116,8 +116,65 @@ route_api :
 #### Result
 The url http://yourwebsite.com/api/hello will display "hello world" :)
 
+Databases 
+-------------
+#### Spacefox as any framework allows you to work with DBs easily !
 
+1) Config.yml - Enable the use of the database and enter the db connection informations 
+```
+## DB settings ##
+#######################
 
+# enable spacefox & client database
+db_enable : true
+
+# Optional - style of the db : mysql, pgsql, sqlite. Default : mysql
+# db_nature : "mysql"
+
+db_host  : "127.0.0.1"
+db_port  : "1337"
+db_user  : "user"
+db_pass  : "pass"
+
+db_name  : "mydatabase"
+```
+
+2) Use models to create your tables.
+
+Create a model file in ***/_spacefox/models/*** 
+
+Example ***/_spacefox/models/test_model.yml***: 
+```
+## Test Model ##
+
+first_name : "CHAR(255)"
+last_name  : "TEXT"
+phone      : "INT"
+various    : "VARCHAR(200)"
+```
+
+3) The use ***spacefox_db*** methods in your view or API to manipulate your database
+
+* Get the PDO connection : ```spacefox_db::_get_connect()```
+* Create the DB : ```spacefox_db::_set_db();```
+* Create the table : ```spacefox_db::_set_table('gugus', 'test_model')```
+ 
+Example of insert : 
+```
+<?php
+    try{
+        $sql = "INSERT INTO testtable (first_name,last_name) VALUES (:first_name,:last_name)";
+        $q = spacefox_db::_get_connect()->prepare($sql);
+
+        $q->execute(array(
+            ':first_name'=> 'John',
+            ':last_name'=> 'Doe'
+        ));
+        echo "yeah done !";
+    }catch (PDOException $e){
+        echo $e->getMessage();
+    }
+```
 Logs ? spacefox::logger :-)
 -------------
 #### Managing errors is also easy
@@ -150,10 +207,6 @@ Various methods
 
 * proxy settings : if you're using spacefox behind a proxy you can add your proxy settings in the node ```proxy``` in the format ***login:pass@URI:port*** (works with spacefox::getdata)
 
-
-Coming soon...
--------------
-* Databases support (mySQL) and spacefox vendor DB utilities
 
 License
 ----
