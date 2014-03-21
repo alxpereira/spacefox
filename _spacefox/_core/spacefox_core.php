@@ -16,26 +16,31 @@ require_once __DIR__.'/../_core/spacefox_db.php';
 	/**
    	 * Main spacefox class.  
      * @package spacefox
-     */
+    */
 	class spacefox {
         protected static $_config;
 
         /**
          * Init Function
+         * @param Boolean $routing - defines if we want to use the routing logics or not during the init.
          *
         */
-        public static function init(){
+        public static function init($routing = true){
             self::$_config = Spyc::YAMLLoad(__DIR__.'/../config.yml');
-            self::route();
+
+            if($routing){
+                self::route();
+            }
         }
 
         /**
-         * Spacefox Dump
-         * @param String $message - message to dump
+         * Install Function
+         *
         */
-		public static function sf_dump($message){
-			var_dump($message);
-		}
+        public static function install(){
+            require_once __DIR__.'/../_core/spacefox_install.php';
+            spacefox_install::init_install();
+        }
 
         /**
          * Routing Function for view and api
@@ -145,7 +150,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
 
         /**
          * Templating generator
-         */
+        */
         public static function forge($template, $data){
             spacefox_forge::tpl_gen($template, $data);
         }
@@ -154,7 +159,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
          * Get Server time
          *
          * @return String $current_date - current date/time on the "YYYY-MM-DD HH:MM:SS DIFF" format
-         */
+        */
         protected static function get_srv_time(){
             $tz = strlen(self::$_config['timezone']) > 0 ? self::$_config['timezone'] : 'Europe/Paris';
 
@@ -169,7 +174,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
          * @param String $url - url to load.
          *
          * @return Object $data
-         */
+        */
         protected function get_data($url) {
             $ch = curl_init();
             $timeout = 5;
@@ -190,5 +195,70 @@ require_once __DIR__.'/../_core/spacefox_db.php';
             echo curl_error($ch);
             curl_close($ch);
             return $data;
+        }
+
+        /**
+         * Spacefox Dump
+         * @param String $message - message to dump
+        */
+        public static function sf_dump($message){
+            var_dump($message);
+        }
+
+        /**
+         * Install Log Generator
+         * @param Array $log - containing log details to show
+        */
+        protected static function front_log($log){
+            switch ($log['success']) {
+                case 0:
+                    $msg =  "Nothing to do : ".$log['log'];
+                    $msg_style = "info";
+                    break;
+
+                case 1:
+                    $msg = "Error : ".$log['log'];
+                    $msg_style = "error";
+                    break;
+
+                case 2:
+                    $msg = "Success : ".$log['log'];
+                    $msg_style = "success";
+                    break;
+
+                default:
+                    $msg = "";
+                    $msg_style = null;
+                    break;
+            }
+
+            self::install_msg($msg, $msg_style);
+        }
+
+        /**
+         * Install Msg Logs Generator
+         * @param String $msg - message to send
+         * @param String $template - range of the message to show (warn, info, etc...)
+        */
+        protected static function install_msg($msg, $template){
+            switch($template){
+                case "success":
+                    $msg = "<div class=\"alert alert-success\">".$msg."</div>";
+                    break;
+                case "info":
+                    $msg = "<div class=\"alert alert-info\">".$msg."</div>";
+                    break;
+                case "warn":
+                    $msg = "<div class=\"alert alert-warning\">".$msg."</div>";
+                    break;
+                case "error":
+                    $msg = "<div class=\"alert alert-danger\">".$msg."</div>";
+                    break;
+                default:
+                    $msg = "<p>".$msg."</p>";
+                    break;
+            }
+
+            echo $msg;
         }
 	}

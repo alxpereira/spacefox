@@ -23,12 +23,13 @@ class spacefox_db extends spacefox{
 
     /**
      * Get connection to the SQL entity
-     * @param Boolean $db_created - to use a without db mentioned query
+     * @param String $target_db - target db name
+     * @param Boolean $ondb - should we target a db?
      *
      * @return pdo - connection created
     */
-    public static function _get_connect($db_created = true){
-        $conn = self::$_pdo != null ? self::$_pdo : self::connect_to_db($db_created);
+    public static function _get_connect($target_db = null, $ondb = true){
+        $conn = self::connect_to_db($target_db, $ondb);
         return $conn;
     }
 
@@ -64,11 +65,12 @@ class spacefox_db extends spacefox{
 
     /**
      * Get connection to the SQL entity
-     * @param Boolean $db_created - to use a without db mentioned query
+     * @param String $target_db - target db name
+     * @param Boolean $ondb - should we target a db?
      *
      * @return pdo - connection created
     */
-    private function connect_to_db($db_created){
+    private function connect_to_db($target_db, $ondb){
         try {
             $config = self::$_config;
             $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
@@ -76,9 +78,11 @@ class spacefox_db extends spacefox{
             // if no nature in the config.yml file -> mysql
             $nature = strlen($config['db_nature']) > 0 ? $config['db_nature'] : "mysql";
 
-            $target_db = $db_created ? ";dbname=".$config['db_name'] : "";
+            $db_name = $target_db != null ? $target_db : $config['db_name'];
 
-            $pdo = new PDO("$nature:host=$dbhost".$target_db, $config['db_user'], $config['db_pass']);
+            $target_dbreq = $ondb ? ";dbname=".$db_name : "";
+
+            $pdo = new PDO("$nature:host=$dbhost".$target_dbreq, $config['db_user'], $config['db_pass']);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
@@ -101,7 +105,7 @@ class spacefox_db extends spacefox{
         $db_name = self::$_config["db_name"];
 
         $sql = "CREATE DATABASE IF NOT EXISTS $db_name";
-        return self::exec_query($sql, false);
+        return self::exec_query($sql, $db_name, false);
     }
 
     /**
@@ -131,12 +135,13 @@ class spacefox_db extends spacefox{
     /**
      * Execute SQL query
      * @param String $q - SQL query
-     * @param Boolean $db_created - Optional to use a without db mentioned query
+     * @param String $target_db - target db name
+     * @param Boolean $ondb - should we target a db?
      *
      * @return Boolean - true/false if the query succeeded of failed.
     */
-    private function exec_query($q, $db_created = true){
-        $pdo = self::_get_connect($db_created);
+    public function exec_query($q, $target_db = null, $ondb = true){
+        $pdo = self::_get_connect($target_db, $ondb);
         try {
             $pdo->exec($q);
             return true;
