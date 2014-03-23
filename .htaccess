@@ -1,4 +1,5 @@
 Options +FollowSymLinks
+Options -Indexes
 IndexIgnore */*
 # Turn on the RewriteEngine
 RewriteEngine On
@@ -6,5 +7,14 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} \/.+\/
-RewriteCond %{REQUEST_URI} !.*\.(css|jpg|gif|zip|js)
+
+RewriteRule ^/?img/(.*)$ _spacefox/views/assets/css/$1 [L]
+RewriteRule ^/?js/(.*)$ _spacefox/views/assets/js/$1 [L]
+RewriteRule ^/?css/(.*)$ _spacefox/views/assets/css/$1 [L]
+
+RewriteRule ^/?sf-install _spacefox/install.php [L]
+
+RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png)$ [NC]
+
+RedirectMatch 404 ^.*/_spacefox/(?!views/assets)(.*)$
 RewriteRule ^(.*)$ index.php [L]
