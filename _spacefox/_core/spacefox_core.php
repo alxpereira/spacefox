@@ -161,7 +161,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
          * @return String $current_date - current date/time on the "YYYY-MM-DD HH:MM:SS DIFF" format
         */
         protected static function get_srv_time(){
-            $tz = strlen(self::$_config['timezone']) > 0 ? self::$_config['timezone'] : 'Europe/Paris';
+            $tz = isset(self::$_config['timezone']) ? self::$_config['timezone'] : 'Europe/Paris';
 
             $date = new DateTime(null, new DateTimeZone($tz));
             $current_date = $date->format('Y-m-d H:i:sP') . "\n";

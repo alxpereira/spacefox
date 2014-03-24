@@ -47,8 +47,17 @@ class spacefox_install extends spacefox{
             return;
         }
 
-        spacefox_install::make_sf_db();
-        spacefox_install::make_client_db();
+        if(!spacefox_db::check_db("spacefox_core")){
+            spacefox_install::make_sf_db();
+        }else{
+            self::install_msg("Database 'spacefox_core' already exists skipping this step...' ", "info");
+        }
+
+        if(!spacefox_db::check_db($config['db_name'])){
+            spacefox_install::make_client_db();
+        }else{
+            self::install_msg("Database '".$config['db_name']."' already exists skipping this step...' ", "info");
+        }
     }
 
     /**
@@ -143,7 +152,7 @@ class spacefox_install extends spacefox{
      * @param String $tpl_name - name of the html to load
     */
     private static function load_install_template($tpl_name){
-        require __DIR__.'/../_core/_templates/'.$tpl_name.'.html';
+        require __DIR__.'/../_install/_templates/'.$tpl_name.'.html';
     }
 
     /**

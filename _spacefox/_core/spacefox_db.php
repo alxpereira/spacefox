@@ -70,13 +70,14 @@ class spacefox_db extends spacefox{
      *
      * @return pdo - connection created
     */
-    private function connect_to_db($target_db, $ondb){
+    private static function connect_to_db($target_db, $ondb){
         try {
             $config = self::$_config;
-            $dbhost = strlen($config['db_port']) > 0 ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
+
+            $dbhost = isset($config['db_port']) ? $config['db_host'].":".$config['db_port'] : $config['db_host'];
 
             // if no nature in the config.yml file -> mysql
-            $nature = strlen($config['db_nature']) > 0 ? $config['db_nature'] : "mysql";
+            $nature = isset($config['db_nature']) > 0 ? $config['db_nature'] : "mysql";
 
             $db_name = $target_db != null ? $target_db : $config['db_name'];
 
@@ -93,7 +94,7 @@ class spacefox_db extends spacefox{
         catch(PDOException $e)
         {
             $_msg = $e->getMessage();
-            self::logger('error', 'Spacefox DB : Connection error : '.$_msg);
+            #self::logger('error', 'Spacefox DB : Connection error : '.$_msg);
         }
     }
 
@@ -101,7 +102,7 @@ class spacefox_db extends spacefox{
      * Database creation from config.yml
      * @return bool - true/false if the creation succeeded of failed.
     */
-    private function create_db(){
+    private static function create_db(){
         $db_name = self::$_config["db_name"];
 
         $sql = "CREATE DATABASE IF NOT EXISTS $db_name";
@@ -115,7 +116,7 @@ class spacefox_db extends spacefox{
      *
      * @return Boolean - true/false if the creation succeeded of failed.
     */
-    private function create_table($table_name, $model_name){
+    private static function create_table($table_name, $model_name){
         $model = self::model($model_name);
         $model_request = "";
 
@@ -140,15 +141,38 @@ class spacefox_db extends spacefox{
      *
      * @return Boolean - true/false if the query succeeded of failed.
     */
-    public function exec_query($q, $target_db = null, $ondb = true){
+    public static function exec_query($q, $target_db = null, $ondb = true){
         $pdo = self::_get_connect($target_db, $ondb);
         try {
             $pdo->exec($q);
             return true;
         } catch (PDOException $e) {
             $_msg = $e->getMessage();
-            self::logger('error', 'Spacefox DB : error : '.$_msg);
+            #self::logger('error', 'Spacefox DB : error : '.$_msg);
             return false;
         }
+    }
+
+    /**
+     * Execute SQL query
+     * @param String $dbname - target db name.
+     *
+     * @return Boolean - returns true if the db alreay exists.
+    */
+    public static function check_db($dbname){
+        $dbexistence = false;
+
+        $sql = "SHOW DATABASES";
+        $con = spacefox_db::_get_connect($dbname, false);
+        $q = $con->query($sql);
+
+        $dbs = $q->fetchAll();
+
+        foreach ($dbs as &$value) {
+            if($dbname == $value['Database']){
+                $dbexistence = true;
+            }
+        }
+        return $dbexistence;
     }
 }
