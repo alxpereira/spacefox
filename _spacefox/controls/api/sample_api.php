@@ -2,18 +2,18 @@
     /*
      * TEST API
     */
-    class test_api extends spacefox{
+    class sample_api extends spacefox{
         public function test_db(){
             $db = spacefox_db::_set_db();
             echo $db;
         }
 
         public static function dosomething(){
-            spacefox::sf_dump('heellloo andrew');
+            spacefox::sf_dump('heellloo');
         }
 
         public static function retrievedb(){
-            if(spacefox_db::_set_table('gugus', 'test_model')){
+            if(spacefox_db::_set_table('guys', 'sample_model')){
                 echo "table created !!!";
             }else{
                 echo "error creating table";
@@ -22,7 +22,7 @@
 
         public function insertdb(){
             try{
-                $sql = "INSERT INTO gugus (first_name,last_name) VALUES (:first_name,:last_name)";
+                $sql = "INSERT INTO guys (first_name,last_name) VALUES (:first_name,:last_name)";
                 $q = spacefox_db::_get_connect()->prepare($sql);
 
                 $q->execute(array(

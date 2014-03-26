@@ -5,7 +5,7 @@ require_once __DIR__.'/../_core/spacefox_db.php';
 
 /**
    * spacefox -- Cool & Simple MVC PHP Framework
-   * @version 0.0.2
+   * @version 0.0.3
    * @author Alexandre Pereira <alex.was.pereira@gmail.com>
    * @link https://github.com/alxpereira/spacefox
    * @copyright Copyright 2014 Alexandre Pereira

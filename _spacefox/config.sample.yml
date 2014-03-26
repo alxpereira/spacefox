@@ -21,6 +21,10 @@ db_pass  : "password"
 
 db_name  : "db_to_create"
 
+# Models
+# models   :
+#   - sample_model
+
 ## Routes / URL rewriting settings ##
 #####################################
 
@@ -30,7 +34,13 @@ route_views :
 
 # Routes - Api settings
 route_api :
-  "/api/hello"     : "test_api => helloworld"
+  "/api/hello"     : "sample_api => helloworld"
 
 # Debug Enable
-debug    : false
+# debug    : false
+
+# Optional Timezone Forcing
+# timezone : "America/New_York"
+
+# Optional ProxySettings
+# proxy    : "username:password@host:port"
