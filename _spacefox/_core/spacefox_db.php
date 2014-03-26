@@ -154,7 +154,7 @@ class spacefox_db extends spacefox{
     }
 
     /**
-     * Execute SQL query
+     * Check if a db exists in SQL server
      * @param String $dbname - target db name.
      *
      * @return Boolean - returns true if the db alreay exists.
@@ -174,5 +174,28 @@ class spacefox_db extends spacefox{
             }
         }
         return $dbexistence;
+    }
+
+    /**
+     * Check if a table exists in our DB
+     * @param String $dbname - target db name.
+     * @param String $tablename - target table.
+     *
+     * @return Boolean - returns true if the table alreay exists.
+    */
+    public static function check_table($dbname, $tablename){
+        $tablexistence = false;
+
+        $sql = "SHOW TABLES LIKE '".$tablename."'";
+        $con = spacefox_db::_get_connect($dbname);
+        $q = $con->query($sql);
+
+        $tables = $q->fetchAll();
+
+        if(count($tables) > 0){
+            $tablexistence = true;
+        }
+
+        return $tablexistence;
     }
 }

@@ -30,6 +30,8 @@ class spacefox_install extends spacefox{
 
         self::make_dbs();
 
+        self::make_models();
+
         self::install_msg("Install done bro' :)", null);
         self::load_install_template("footer_install");
 	}
@@ -50,13 +52,34 @@ class spacefox_install extends spacefox{
         if(!spacefox_db::check_db("spacefox_core")){
             spacefox_install::make_sf_db();
         }else{
-            self::install_msg("Database 'spacefox_core' already exists skipping this step...' ", "info");
+            self::install_msg("Database <strong>'spacefox_core'</strong> already exists skipping this step... ", "info");
         }
 
         if(!spacefox_db::check_db($config['db_name'])){
             spacefox_install::make_client_db();
         }else{
-            self::install_msg("Database '".$config['db_name']."' already exists skipping this step...' ", "info");
+            self::install_msg("Database <strong>'".$config['db_name']."'</strong> already exists skipping this step... ", "info");
+        }
+    }
+
+    /**
+     * Models Creation trigger
+    */
+    private static function make_models(){
+        $config = self::$_config;
+
+        if(isset($config['models']) && spacefox_db::check_db($config['db_name'])){
+            self::install_msg("Database <strong>'".$config['db_name']."'</strong> found and models detected in your config.yml installing...", "success");
+            foreach($config['models'] as &$table){
+                if(!spacefox_db::check_table($config['db_name'], $table)){
+                    spacefox_db::_set_table($table, $table);
+                    self::install_msg("Creating <strong>".$table."</strong> model in <strong>".$config['db_name']."</strong>", "success");
+                }else{
+                    self::install_msg("Model <strong>".$table."</strong> already exists skipping this step... ", "info");
+                }
+            }
+        }else{
+            return;
         }
     }
 
