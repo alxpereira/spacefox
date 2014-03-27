@@ -3,13 +3,16 @@
      * TEST API
     */
     class sample_api extends spacefox{
+
+        // Hello World Sample method called via the API route
+        public static function helloworld(){
+            spacefox::sf_dump('heellloo');
+        }
+
+        // DB Management various examples
         public function test_db(){
             $db = spacefox_db::_set_db();
             echo $db;
-        }
-
-        public static function dosomething(){
-            spacefox::sf_dump('heellloo');
         }
 
         public static function retrievedb(){
