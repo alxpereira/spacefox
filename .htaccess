@@ -8,7 +8,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} \/.+\/
 
-RewriteRule ^/?img/(.*)$ _spacefox/views/assets/css/$1 [L]
+RewriteRule ^/?img/(.*)$ _spacefox/views/assets/img/$1 [L]
 RewriteRule ^/?js/(.*)$ _spacefox/views/assets/js/$1 [L]
 RewriteRule ^/?css/(.*)$ _spacefox/views/assets/css/$1 [L]
 
@@ -21,5 +21,5 @@ RewriteCond %{REQUEST_URI} !_spacefox/_install/install.php
 
 RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png)$ [NC]
 
-#RedirectMatch 404 ^.*/_spacefox/(?!views/assets|_install)(.*)$
+RedirectMatch 404 ^.*/_spacefox/(?!views/assets|_install)(.*)$
 RewriteRule ^(.*)$ index.php [L]

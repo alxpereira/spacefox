@@ -7,7 +7,7 @@ require_once __DIR__.'/../_lib/spyc.php';
  * @link https://github.com/alxpereira/spacefox
  * @copyright Copyright 2014 Alexandre Pereira
  * @license WTFPL 2004
- * @package Spacefox
+ * @package spacefox
  */
 
 
@@ -29,7 +29,6 @@ class spacefox_install extends spacefox{
         self::install_msg("Initializing Installation of spacefox...", null);
 
         self::make_dbs();
-
         self::make_models();
 
         self::install_msg("Install done bro' :)", null);
